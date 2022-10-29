@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:leadon_app/common/widgets/custom_button.dart';
 import 'package:leadon_app/features/auth/screen/sign_in_page.dart';
+import 'package:leadon_app/features/auth/screen/sign_up_page.dart';
 
 class LandingPage extends StatefulWidget {
   static const String routeName = '/landing-page';
@@ -29,11 +30,15 @@ class _LandingPageState extends State<LandingPage> {
               child: const Text('Demo App'),
             ),
             CustomButton(
+              text: 'Sign Up Page',
+              onPressed: () =>
+                  Navigator.pushNamed(context, SignUpPage.routeName),
+            ),
+            CustomButton(
               text: 'Sign In Page',
               onPressed: () =>
                   Navigator.pushNamed(context, SignInPage.routeName),
             ),
-            CustomButton(text: 'Sign Up Page', onPressed: () {}),
           ],
         ),
       ),

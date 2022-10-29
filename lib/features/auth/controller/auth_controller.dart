@@ -31,7 +31,7 @@ class AuthController {
     authRepository.signInWithPhone(context, phoneNumber);
   }
 
-  void verifyOTP(BuildContext context, String verificationId, String userOTP) {
+  void verifyOTP(BuildContext context, String verificationId, String userOTP,String routeName) {
     authRepository.verifyOTP(
       context: context,
       verificationId: verificationId,
@@ -39,12 +39,39 @@ class AuthController {
     );
   }
 
-  void saveUserDataToFirebase(
-      BuildContext context, String name, File? profilePic,String birthday,) {
-    authRepository.saveUserDataToFirebase(
-        name: name, profilePic: profilePic, ref: ref, context: context,birthday: birthday);
+  void updateUser(
+      String name, File profilePic, String birthday, BuildContext context) {
+    authRepository.updateUser(
+        name: name,
+        profilePic: profilePic,
+        birthday: birthday,
+        ref: ref,
+        context: context);
   }
 
+  Stream<UserModel> userDataById() {
+    return authRepository.userData();
+  }
 
+  void deleteUserData() {
+    return authRepository.deleteUserData();
+  }
 
+  void signOut(BuildContext context) {
+    return authRepository.signOut(context);
+  }
+
+  void saveUserDataToFirebase(
+    BuildContext context,
+    String name,
+    File? profilePic,
+    String birthday,
+  ) {
+    authRepository.saveUserDataToFirebase(
+        name: name,
+        profilePic: profilePic,
+        ref: ref,
+        context: context,
+        birthday: birthday);
+  }
 }

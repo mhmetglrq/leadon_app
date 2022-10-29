@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leadon_app/common/widgets/custom_button.dart';
-import 'package:leadon_app/features/home/screen/home_page.dart';
+import 'package:leadon_app/features/auth/screen/user_detail_page.dart';
 
 import '../../../common/utils/utils.dart';
 import '../controller/auth_controller.dart';
 
-class SignInPage extends ConsumerStatefulWidget {
+class SignUpPage extends ConsumerStatefulWidget {
   static const String routeName = '/sign-in-page';
-  const SignInPage({super.key});
+  const SignUpPage({super.key});
 
   @override
-  ConsumerState<SignInPage> createState() => _SignInPageState();
+  ConsumerState<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends ConsumerState<SignInPage> {
+class _SignUpPageState extends ConsumerState<SignUpPage> {
   late final TextEditingController phoneController = TextEditingController();
 
   @override
@@ -33,11 +33,9 @@ class _SignInPageState extends ConsumerState<SignInPage> {
   void sendPhoneNumber() {
     String phoneNumber = phoneController.text.trim();
     if (phoneNumber.isNotEmpty) {
-      ref
-          .read(authControllerProvider)
-          .signInWithPhone(context, phoneNumber);
+      ref.read(authControllerProvider).signInWithPhone(context, phoneNumber,);
     } else {
-      showSnackBar(context: context, content: 'Fill out of all the fields');
+      showSnackBar(context: context, content: 'Fill out of all the fiedls');
     }
   }
 

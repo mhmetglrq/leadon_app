@@ -6,15 +6,17 @@ import '../controller/auth_controller.dart';
 class OTPScreen extends ConsumerWidget {
   static const String routeName = '/otp-screen';
   final String verificationId;
+  final String router;
   const OTPScreen({
     Key? key,
+    required this.router,
     required this.verificationId,
   }) : super(key: key);
 
   void verifyOtp(WidgetRef ref, BuildContext context, String userOTP) {
     ref
         .read(authControllerProvider)
-        .verifyOTP(context, verificationId, userOTP);
+        .verifyOTP(context, verificationId, userOTP,router);
   }
 
   @override
