@@ -45,6 +45,9 @@ class _HomePageState extends ConsumerState<HomePage> {
     ref.read(authControllerProvider).signOut(context);
   }
 
+  void deleteUser() {
+    ref.read(authControllerProvider).deleteUserData();
+  }
 
   @override
   void dispose() {
@@ -56,9 +59,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: StreamBuilder<UserModel?>(
+    return Scaffold(
+      body: SafeArea(
+        child: StreamBuilder<UserModel?>(
             stream: ref.read(authControllerProvider).userDataById(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -67,7 +70,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
-                        child: Text(snapshot.data!.name),
+                        child: Text(snapshot.data!.name.toString()),
                       ),
                       Container(
                         margin: const EdgeInsets.all(20),
@@ -79,7 +82,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                       ),
                       Center(
-                        child: Text(snapshot.data!.birthday),
+                        child: Text(snapshot.data!.birthday.toString()),
                       ),
                       Container(
                         margin: const EdgeInsets.all(20),
@@ -96,7 +99,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                       SizedBox(
                           width: size.width * 0.2,
                           height: size.height * 0.2,
-                          child: Image.network(snapshot.data!.profilePic)),
+                          child: Image.network(
+                              snapshot.data!.profilePic.toString())),
                       CustomButton(
                           text: 'Open gallery', onPressed: selectImage),
                       CustomButton(
@@ -106,6 +110,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                       CustomButton(
                         text: 'Sign out',
                         onPressed: signOut,
+                      ),
+                      CustomButton(
+                        text: 'Delete',
+                        onPressed: deleteUser,
                       )
                     ],
                   ),

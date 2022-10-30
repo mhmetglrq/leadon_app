@@ -53,23 +53,44 @@ class AuthRepository {
         verificationId: verificationId,
         smsCode: userOTP,
       );
-      await auth.signInWithCredential(phoneAuthCredential);
+      auth.signInWithCredential(phoneAuthCredential).then((value) {
+        firestore
+            .collection('users')
+            .where('uid', isEqualTo: auth.currentUser!.uid)
+            .get()
+            .then((value) {
+          print('Length ----------');
+          print(value.docs.length.toString());
+          if (value.docs.isNotEmpty) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomePage.routeName, (route) => false);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+                context, UserDetailPage.routeName, (route) => false);
+          }
+        }).onError((error, stackTrace) {
+          print('hata oldu 1');
+        });
+      }).onError((error, stackTrace) {
+        print('hata oldu 2');
+      });
 
-      UserModel? userModel;
+      // UserModel? userModel;
 
       var documentSnapshot =
-          firestore.collection('users').doc(auth.currentUser!.uid).get();
-      documentSnapshot.then((value) {
-        userModel = UserModel.fromMap(value.data() as Map<String, dynamic>);
+          firestore.collection('users').doc(auth.currentUser?.uid).get();
+      // documentSnapshot.then((value) {
+      //   userModel = UserModel.fromMap(value.data() as Map<String, dynamic>);
 
-        if (userModel!.name.isEmpty) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, UserDetailPage.routeName, (route) => false);
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomePage.routeName, (route) => false);
-        }
-      });
+      // Navigator.pushNamedAndRemoveUntil(
+      //     context, UserDetailPage.routeName, (route) => false);
+
+      // if (userModel!.name.isEmpty) {
+
+      // } else {
+
+      // }
+      // });
     } on FirebaseAuthException catch (e) {
       showSnackBar(context: context, content: e.message!);
     }
